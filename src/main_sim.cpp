@@ -211,7 +211,7 @@ void loop() {
       // ----------------------------------------------------
       // Logika Hysteresis dengan Fitur Fail-safe & Cooldown untuk Pompa Air
       // ----------------------------------------------------
-      if (moisturePercent < 40) {
+      if (moisturePercent < 80) {
         if (pumpSafetyCutoff) {
           // Pengaman aktif, kunci pompa selama masa cooldown
           Serial.printf("=> Info: Pompa istirahat (cooldown) sisa %ds agar air meresap ke sensor.\r\n", cooldownRemaining);
@@ -227,7 +227,7 @@ void loop() {
           }
         }
       } 
-      else if (moisturePercent > 70) {
+      else if (moisturePercent > 90) {
         if (lastPumpState) {
           lastPumpState = false;
           digitalWrite(RELAY_PUMP_PIN, LOW);
@@ -243,9 +243,9 @@ void loop() {
         }
       }
       else {
-        // Berada di dalam batas toleransi (Hysteresis zone: 40% - 70%)
+        // Berada di dalam batas toleransi (Hysteresis zone: 80% - 90%)
         if (pumpSafetyCutoff) {
-          // Jika tanah mulai lembap (>40%), kita juga bisa membuka kunci pengaman secara otomatis
+          // Jika tanah mulai lembap (>80%), kita juga bisa membuka kunci pengaman secara otomatis
           pumpSafetyCutoff = false;
           Serial.println("=> Info: Kunci Fail-safe dilepas karena kelembapan tanah mulai naik di atas batas kritis.\r\n");
         }
